@@ -8,22 +8,24 @@ const init = async () => {
   const isLetter = (letter) => {
     return /^[a-zA-Z]$/.test(letter);
   };
-  
+
   const commit = () => {
     console.log('invoking commit function');
   };
-  
+
   const backspace = () => {
     console.log('invoking backspace function');
   };
-  
+
   const addLetter = (letter) => {
     console.log('invoking addLetter function');
-    if(currentGuess.length < ANSWER_LENGTH) {
+    if (currentGuess.length < ANSWER_LENGTH) {
       currentGuess += letter;
     } else {
-      currentGuess = currentGuess.slice(0,-1) + letter
+      currentGuess = currentGuess.slice(0, -1) + letter;
     }
+
+    letters[currentGuess.length - 1].innerText = letter;
   };
 
   document.addEventListener(
