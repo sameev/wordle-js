@@ -22,9 +22,11 @@ const init = async () => {
     if (currentGuess.length < ANSWER_LENGTH) {
       currentGuess += letter;
     } else {
+      //replace last letter of current guess if already 5 letters
       currentGuess = currentGuess.slice(0, -1) + letter;
     }
 
+    //renders letter on browser
     letters[currentGuess.length - 1].innerText = letter;
   };
 
