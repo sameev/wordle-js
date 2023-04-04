@@ -1,6 +1,7 @@
 const letters = document.querySelectorAll('.guess-letter');
 const loadingDiv = document.querySelector('.info-bar');
 const ANSWER_LENGTH = 5;
+const ROUNDS = 6;
 
 const init = async () => {
   let currentGuess = '';
@@ -9,6 +10,7 @@ const init = async () => {
 
   const answer = await getAnswer();
   const answerArray = answer.split('');
+  let done = false;
 
   isLoading = false;
   setLoading(isLoading);
@@ -25,7 +27,7 @@ const init = async () => {
 
     //TODO: Need to validate that the word is a correct 5-letter word
 
-    //TODO: Mark the letter boxes of current row as "correct" "incorrect" or "wrong-spot"
+    //*Mark the letter boxes of current row as "correct" "incorrect" or "wrong-spot"
     const currentGuessArray = currentGuess.split('');
 
     //setting up an answerMap to keep track of remaining letters after each loop
@@ -57,8 +59,18 @@ const init = async () => {
 
     //TODO: Check to see if the user won(correct guess) or lost (incorrect guess on 6th chance)
 
+    if (currentGuess === answer) {
+      alert('You win!');
+      done = true;
+      return;
+    }
+
     currentRow++;
     currentGuess = '';
+
+    if (currentRow === ROUNDS) {
+      alert(`Sorry, you lose. Today's word was ${answer}`);
+    }
   };
 
   const backspace = () => {
