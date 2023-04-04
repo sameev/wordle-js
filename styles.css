@@ -36,6 +36,7 @@ header {
   align-items: center;
 }
 .info-bar {
+  visibility: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,8 +52,8 @@ header {
   animation: spin 1.5s linear infinite;
 }
 
-.hidden {
-  visibility: hidden;
+.show {
+  visibility: visible;
 }
 .correct {
   background-color: darkgreen;
