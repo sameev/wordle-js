@@ -9,7 +9,7 @@ const init = async () => {
 
   const answer = await getAnswer();
   const answerArray = answer.split('');
-  console.log(answer, answerArray);
+
   isLoading = false;
   setLoading(isLoading);
 
@@ -28,10 +28,30 @@ const init = async () => {
     //TODO: Mark the letter boxes of current row as "correct" "incorrect" or "wrong-spot"
     const currentGuessArray = currentGuess.split('');
 
+    //setting up an answerMap to keep track of remaining letters after each loop
+    const answerMap = makeMap(answerArray);
+
+    //loop through guess first time to mark correct squares;
     for (let i = 0; i < ANSWER_LENGTH; i++) {
-      //mark as correct;
-      if (answerArray[i] === currentGuessArray[i]) {
+      const letter = currentGuessArray[i];
+      if (letter === answerArray[i]) {
         letters[currentRow * ANSWER_LENGTH + i].classList.add('correct');
+        answerMap[letter]--;
+        console.log(answerMap);
+      }
+    }
+
+    for (let i = 0; i < ANSWER_LENGTH; i++) {
+      const letter = currentGuessArray[i];
+      if (letter === answerArray[i]) {
+        //do nothing - already handled by first loop
+      } else if (answerArray.includes(letter) && answerMap[letter] > 0) {
+        //mark the letter as "close" and decrement remaining letter count in map
+        letters[currentRow * ANSWER_LENGTH + i].classList.add('wrong-spot');
+        answerMap[letter]--;
+      } else {
+        //mark the letter as "incorrect"
+        letters[currentRow * ANSWER_LENGTH + i].classList.add('incorrect');
       }
     }
 
@@ -89,6 +109,14 @@ const getAnswer = async () => {
   const data = await res.json();
 
   return data.word.toUpperCase();
+};
+
+const makeMap = (array) => {
+  const map = {};
+  array.forEach((letter) => {
+    map[letter] = (map[letter] || 0) + 1;
+  });
+  return map;
 };
 
 init();
