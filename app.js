@@ -1,13 +1,17 @@
 const letters = document.querySelectorAll('.guess-letter');
-const loading = document.querySelector('.info-bar');
+const loadingDiv = document.querySelector('.info-bar');
 const ANSWER_LENGTH = 5;
 
 const init = async () => {
   let currentGuess = '';
   let currentRow = 0;
+  let isLoading = true;
 
   const wordOfTheDay = await getWordOfTheDay();
   console.log(wordOfTheDay);
+  isLoading = false;
+  setLoading(isLoading);
+  
 
   const isLetter = (letter) => {
     return /^[a-zA-Z]$/.test(letter);
@@ -66,6 +70,11 @@ const init = async () => {
     })
   );
 };
+
+//show the loading spinner when needed
+const setLoading = (isLoading) => {
+  loadingDiv.classList.toggle('show', isLoading)
+}
 
 const getWordOfTheDay = async () => {
   const res = await fetch('https://words.dev-apis.com/word-of-the-day');
