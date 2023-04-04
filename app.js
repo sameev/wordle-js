@@ -57,7 +57,7 @@ const init = async () => {
       }
     }
 
-    //TODO: Check to see if the user won(correct guess) or lost (incorrect guess on 6th chance)
+    //*Check to see if the user won(correct guess) or lost (incorrect guess on 6th chance)
 
     if (currentGuess === answer) {
       alert('You win!');
@@ -96,6 +96,11 @@ const init = async () => {
   document.addEventListener(
     'keydown',
     (handleKeyPress = (event) => {
+      if (done || isLoading) {
+        //do nothing;
+        return;
+      }
+
       const pressedKey = event.key;
 
       if (pressedKey === 'Enter') {
