@@ -25,7 +25,33 @@ const init = async () => {
       return;
     }
 
-    //TODO: Need to validate that the word is a correct 5-letter word
+    //*Need to validate that the word is a correct 5-letter word
+    isLoading = true;
+    setLoading(isLoading);
+
+    const postBody = {
+      word: currentGuess,
+    };
+
+    const res = await fetch('https://words.dev-apis.com/validate-word', {
+      method: 'POST',
+      body: JSON.stringify(postBody),
+    });
+
+    const { validWord } = await res.json();
+    isLoading = false;
+    setLoading(isLoading);
+
+    if (!validWord) {
+      for (let i = 0; i < ANSWER_LENGTH; i++) {
+        letters[currentRow * ANSWER_LENGTH + i].classList.remove('invalid');
+
+        setTimeout(() => {
+          letters[currentRow * ANSWER_LENGTH + i].classList.add('invalid');
+        }, 10);
+      }
+      return;
+    }
 
     //*Mark the letter boxes of current row as "correct" "incorrect" or "wrong-spot"
     const currentGuessArray = currentGuess.split('');
